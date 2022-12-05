@@ -17,8 +17,8 @@ export default function App() {
     <SafeArea>
       <MapContainer>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {tempArr.map((itm) => (
-            <Map key={itm} startAnim={startAnim} />
+          {tempArr.map((itm, index) => (
+            <Map key={itm} startAnim={startAnim} delay={index * 1000} />
           ))}
         </ScrollView>
         <Button

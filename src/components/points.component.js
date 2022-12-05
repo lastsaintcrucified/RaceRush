@@ -3,6 +3,7 @@ import Animated, {
   useSharedValue,
   useAnimatedProps,
   withTiming,
+  withDelay,
 } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
 import { Button } from "react-native";
@@ -13,7 +14,7 @@ const SvgContainer = styled(Svg)`
   width: 40px;
   height: 40px;
 `;
-export const Points = ({ animDuration, startAnim }) => {
+export const Points = ({ animDuration, startAnim, delay }) => {
   const radius = useSharedValue(0);
   const config = {
     duration: animDuration,
@@ -29,9 +30,9 @@ export const Points = ({ animDuration, startAnim }) => {
 
   const anim = () => {
     if (startAnim) {
-      radius.value = withTiming(20, config);
+      radius.value = withDelay(delay, withTiming(20, config));
     } else {
-      radius.value = withTiming(0, config);
+      radius.value = withDelay(delay, withTiming(0, config));
     }
   };
   anim();

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Animated, {
   useSharedValue,
   withTiming,
+  withDelay,
   useAnimatedProps,
 } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
@@ -14,7 +15,7 @@ const SvgContainer = styled(Svg)`
   height: 50px;
 `;
 
-export const DashedPath = ({ animDuration, startAnim }) => {
+export const DashedPath = ({ animDuration, startAnim, delay }) => {
   const progress = useSharedValue(0);
 
   const config = {
@@ -34,9 +35,9 @@ export const DashedPath = ({ animDuration, startAnim }) => {
 
   const anim = () => {
     if (startAnim) {
-      progress.value = withTiming(100, config);
+      progress.value = withDelay(delay, withTiming(100, config));
     } else {
-      progress.value = withTiming(0, config);
+      progress.value = withDelay(delay, withTiming(0, config));
     }
   };
   anim();

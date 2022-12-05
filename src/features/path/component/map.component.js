@@ -10,11 +10,15 @@ const PathContainer = styled.View`
   align-items: center;
 `;
 
-export const Map = ({ startAnim }) => {
+export const Map = ({ startAnim, delay }) => {
   return (
     <PathContainer>
-      <Points animDuration={1000} startAnim={startAnim} />
-      <DashedPath animDuration={1000} startAnim={startAnim} />
+      <Points animDuration={500} startAnim={startAnim} delay={delay} />
+      <DashedPath
+        animDuration={1000}
+        startAnim={startAnim}
+        delay={delay + 100}
+      />
     </PathContainer>
   );
 };
