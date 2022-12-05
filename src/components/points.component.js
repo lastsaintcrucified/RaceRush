@@ -12,12 +12,11 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const SvgContainer = styled(Svg)`
   width: 40px;
   height: 40px;
-  border: 2px solid red;
 `;
-export const Points = () => {
+export const Points = ({ animDuration, startAnim }) => {
   const radius = useSharedValue(0);
   const config = {
-    duration: 1000,
+    duration: animDuration,
   };
   const animatedProps = useAnimatedProps(() => {
     // draw a circle
@@ -27,17 +26,23 @@ export const Points = () => {
       r: radius.value,
     };
   });
-  //   useEffect(() => {
-  //     radius.value = withTiming(20, config);
-  //   }, []);
+
+  const anim = () => {
+    if (startAnim) {
+      radius.value = withTiming(20, config);
+    } else {
+      radius.value = withTiming(0, config);
+    }
+  };
+  anim();
 
   // attach animated props to an SVG path using animatedProps
   return (
     <>
-      <SvgContainer viewBox="0 0 100 100">
+      <SvgContainer viewBox="0 0 40 40">
         <AnimatedCircle animatedProps={animatedProps} fill="#ECE7E7" />
       </SvgContainer>
-      <Button
+      {/* <Button
         title="toggle"
         onPress={() => {
           radius.value = withTiming(20, config);
@@ -48,7 +53,7 @@ export const Points = () => {
         onPress={() => {
           radius.value = withTiming(0, config);
         }}
-      />
+      /> */}
     </>
   );
 };

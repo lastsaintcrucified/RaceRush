@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Animated, {
   useSharedValue,
   withTiming,
@@ -10,20 +10,21 @@ import styled from "styled-components/native";
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const SvgContainer = styled(Svg)`
-  width: 100%;
+  width: 100px;
   height: 50px;
 `;
 
-export const DashedPath = () => {
-  const progress = useSharedValue(1);
+export const DashedPath = ({ animDuration, startAnim }) => {
+  const progress = useSharedValue(0);
+
   const config = {
-    duration: 5000,
+    duration: animDuration,
   };
 
   const animatedProps = useAnimatedProps(() => {
     // draw a circle
     const path = `
-    M 5, 40
+    M 0, 40
     L ${progress.value} 40
     `;
     return {
@@ -31,12 +32,17 @@ export const DashedPath = () => {
     };
   });
 
-  useEffect(() => {
-    progress.value = withTiming(100, config);
-  }, []);
+  const anim = () => {
+    if (startAnim) {
+      progress.value = withTiming(100, config);
+    } else {
+      progress.value = withTiming(0, config);
+    }
+  };
+  anim();
   return (
     <>
-      <SvgContainer>
+      <SvgContainer viewBox="10 15 50 50">
         <AnimatedPath
           animatedProps={animatedProps}
           stroke="#83CEF8"
