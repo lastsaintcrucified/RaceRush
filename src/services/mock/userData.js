@@ -44,7 +44,7 @@ export const data = [
 ];
 
 export const checkPoints = [
-  "Bath",
+  "Reisan",
   "Belfast",
   "London",
   "Bryford",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -9,6 +9,12 @@ import Animated, {
 import { Text } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import styled from "styled-components/native";
+import {
+  backgroundColor,
+  backgroundColor2,
+  backgroundColor4,
+  textColor,
+} from "./app.styled.component";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const SvgContainer = styled(Svg)`
@@ -18,7 +24,7 @@ const SvgContainer = styled(Svg)`
 
 const AnimatedText = Animated.createAnimatedComponent(Text);
 
-export const Points = ({ animDuration, startAnim, delay, checkPoint }) => {
+export const Points = ({ animDuration, delay, checkPoint }) => {
   const radius = useSharedValue(0);
   const textOpacity = useSharedValue(0);
   const config = {
@@ -38,16 +44,10 @@ export const Points = ({ animDuration, startAnim, delay, checkPoint }) => {
     };
   }, []);
 
-  const anim = () => {
-    if (startAnim) {
-      radius.value = withDelay(delay, withTiming(30, config));
-      textOpacity.value = withDelay(delay + 500, withTiming(1, config));
-    } else {
-      radius.value = withDelay(delay, withTiming(0, config));
-      textOpacity.value = withDelay(delay + 500, withTiming(0, config));
-    }
-  };
-  anim();
+  useEffect(() => {
+    radius.value = withDelay(delay, withTiming(30, config));
+    textOpacity.value = withDelay(delay + 500, withTiming(1, config));
+  }, []);
 
   // attach animated props to an SVG path using animatedProps
   return (
@@ -61,6 +61,7 @@ export const Points = ({ animDuration, startAnim, delay, checkPoint }) => {
             bottom: "34%",
             fontFamily: "monospace",
             fontSize: 10,
+            color: textColor,
           },
           textAnimatedStyle,
         ]}
@@ -68,7 +69,7 @@ export const Points = ({ animDuration, startAnim, delay, checkPoint }) => {
         {checkPoint}
       </AnimatedText>
       <SvgContainer viewBox="0 0 60 60">
-        <AnimatedCircle animatedProps={animatedProps} fill="#ECE7E7" />
+        <AnimatedCircle animatedProps={animatedProps} fill={backgroundColor} />
       </SvgContainer>
     </>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Text, View } from "react-native";
 import Animated, {
   useSharedValue,
@@ -9,7 +9,12 @@ import Animated, {
 } from "react-native-reanimated";
 import Svg, { Rect, Path } from "react-native-svg";
 import styled from "styled-components/native";
-import { data } from "../services/mock/userData";
+import {
+  backgroundColor2,
+  backgroundColor3,
+  textColor,
+  textColor2,
+} from "./app.styled.component";
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -19,7 +24,7 @@ const SvgContainer = styled(Svg)`
   width: 100px;
   height: 60px;
 `;
-export const LogBox = ({ animDuration, startAnim, delay, data, index }) => {
+export const LogBox = ({ animDuration, delay, data, index }) => {
   const box = useSharedValue(0);
   const triOpacity = useSharedValue(0);
   const textOpacity = useSharedValue(0);
@@ -46,18 +51,12 @@ export const LogBox = ({ animDuration, startAnim, delay, data, index }) => {
     };
   }, []);
 
-  const anim = () => {
-    if (startAnim) {
-      box.value = withDelay(delay, withTiming(49, config));
-      triOpacity.value = withDelay(delay, withTiming(1, config));
-      textOpacity.value = withDelay(delay + 500, withTiming(1, config));
-    } else {
-      box.value = withDelay(delay, withTiming(0, config));
-      triOpacity.value = withDelay(delay, withTiming(0, config));
-      textOpacity.value = withDelay(delay + 500, withTiming(0, config));
-    }
-  };
-  anim();
+  useEffect(() => {
+    box.value = withDelay(delay, withTiming(49, config));
+    triOpacity.value = withDelay(delay, withTiming(1, config));
+    textOpacity.value = withDelay(delay + 500, withTiming(1, config));
+  }, []);
+
   return (
     <View
       style={
@@ -76,6 +75,7 @@ export const LogBox = ({ animDuration, startAnim, delay, data, index }) => {
             fontFamily: "monospace",
             fontSize: 8,
             fontWeight: "900",
+            color: textColor,
           },
           textAnimatedStyle,
         ]}
@@ -83,10 +83,13 @@ export const LogBox = ({ animDuration, startAnim, delay, data, index }) => {
         {index === 0 ? data.Log[0].date : data.Log[data.Log.length - 1].date}
       </AnimatedText>
       <SvgContainer viewBox="0 0 40 50">
-        <AnimatedRect animatedProps={RectAnimatedProps} fill="#ECE7E7" />
+        <AnimatedRect
+          animatedProps={RectAnimatedProps}
+          fill={backgroundColor3}
+        />
         <AnimatedPath
           d="M22.4989 50.1255L16.2879 33.5164L29.2764 33.7395L22.4989 50.1255Z"
-          fill="#ECE7E7"
+          fill={backgroundColor3}
           style={[triAnimatedStyle]}
         />
       </SvgContainer>

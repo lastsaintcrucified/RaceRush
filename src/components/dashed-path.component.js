@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Animated, {
   useSharedValue,
   withTiming,
@@ -24,14 +24,7 @@ const LogBoxContainer = styled(LogBox)`
   z-index: 999;
 `;
 
-export const DashedPath = ({
-  animDuration,
-  startAnim,
-  delay,
-  data,
-  logDetails,
-  index,
-}) => {
+export const DashedPath = ({ animDuration, delay, data, index }) => {
   const progress = useSharedValue(0);
 
   const config = {
@@ -49,19 +42,14 @@ export const DashedPath = ({
     };
   });
 
-  const anim = () => {
-    if (startAnim) {
-      progress.value = withDelay(delay, withTiming(100, config));
-    } else {
-      progress.value = withDelay(delay, withTiming(0, config));
-    }
-  };
-  anim();
+  useEffect(() => {
+    progress.value = withDelay(delay, withTiming(100, config));
+  }, []);
+
   return (
     <Container>
       <LogBoxContainer
         animDuration={500}
-        startAnim={startAnim}
         delay={delay}
         data={data}
         index={index}
@@ -69,9 +57,10 @@ export const DashedPath = ({
       <SvgContainer viewBox="10 15 50 50">
         <AnimatedPath
           animatedProps={animatedProps}
-          stroke="#83CEF8"
-          strokeWidth={6}
+          stroke="#ba68c8"
+          strokeWidth={4}
           strokeLinecap="round"
+          strokeDasharray={[0, 7]}
         />
       </SvgContainer>
     </Container>

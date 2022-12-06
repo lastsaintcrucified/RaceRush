@@ -6,7 +6,7 @@ export const SafeArea = styled.SafeAreaView`
     !props.header &&
     StatusBar.currentHeight &&
     `padding-top:${StatusBar.currentHeight}px`};
-  flex: 1;
   background-color: "#FFFFFF";
+  opacity: 0;
   flex-direction: column;
 `;
